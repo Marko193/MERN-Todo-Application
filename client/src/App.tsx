@@ -1,85 +1,80 @@
-import { useEffect, useState, FormEvent, JSX } from 'react';
-import axios from 'axios';
-import { Todo } from './types';
+import React, { useEffect, useState } from 'react';
+import { CheckWalletConnection, TransactionsList, SendTransactionForm } from '@/components';
+import { connectWallet, fetchETHPrice, getBalance, subscribeWalletEvents } from '@/services';
+import * as Styled from './App.styles';
 
-const API = import.meta.env.VITE_API_URL ?? 'http://localhost:8080/api/todos';
+export default function App() {
+  const [address, setAddress] = useState<string | null>(null);
+  const [balanceETH, setBalanceETH] = useState<string | null>(null);
+  const [balanceUSD, setBalanceUSD] = useState<string | null>(null);
 
-export default function App(): JSX.Element {
-  const [todos, setTodos] = useState<Todo[]>([]);
-  const [text, setText] = useState<string>('');
-
-  async function load() {
+  const updateBalance = async (address: string) => {
     try {
-      const res = await axios.get<Todo[]>(API);
-      setTodos(res.data);
-    } catch (e) {
-      console.error(e);
+      const ethBalance = await getBalance(address);
+      setBalanceETH(ethBalance);
+
+      const price = await fetchETHPrice();
+      setBalanceUSD((parseFloat(ethBalance) * price).toFixed(2));
+    } catch (err) {
+      setBalanceETH(null);
+      setBalanceUSD(null);
     }
-  }
+  };
+
+  const initWallet = async () => {
+    try {
+      const walletData = await connectWallet();
+      setAddress(walletData.address);
+      await updateBalance(walletData.address);
+
+      subscribeWalletEvents(
+        async (accounts: string[]) => {
+          if (accounts.length > 0) {
+            setAddress(accounts[0]);
+            await updateBalance(accounts[0]);
+          } else {
+            setAddress(null);
+            setBalanceETH(null);
+            setBalanceUSD(null);
+          }
+        },
+        () => window.location.reload()
+      );
+    } catch (err) {
+      console.error('initWallet error', err);
+    }
+  };
 
   useEffect(() => {
-    load();
+    void initWallet();
   }, []);
 
-  async function addTodo(e: FormEvent) {
-    e.preventDefault();
-    if (!text.trim()) return;
-    try {
-      const res = await axios.post<Todo>(API, { text });
-      setTodos((prev) => [res.data, ...prev]);
-      setText('');
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  async function removeTodo(id: string) {
-    try {
-      await axios.delete(`${API}/${id}`);
-      setTodos((prev) => prev.filter((t) => t._id !== id));
-    } catch (e) {
-      console.error(e);
-    }
-  }
+  useEffect(() => {
+    if (!address) return;
+    const interval = setInterval(() => updateBalance(address), 10000);
+    return () => clearInterval(interval);
+  }, [address]);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '100vh',
-        background: '#f9f9f9'
-      }}>
-      <div style={{ maxWidth: 600, width: '100%', padding: '1rem', fontFamily: 'sans-serif' }}>
-        <h1 style={{ textAlign: 'center' }}>Simple MERN Todo (TS)</h1>
+    <Styled.RootContainer>
+      <h1>Web3 DApp</h1>
 
-        <form onSubmit={addTodo} style={{ marginBottom: '1rem', display: 'flex', gap: '0.5rem' }}>
-          <input
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="New todo..."
-            style={{ padding: '0.5rem', flex: 1 }}
-          />
-          <button style={{ padding: '0.5rem 1rem' }}>Add</button>
-        </form>
+      <CheckWalletConnection address={address} balanceETH={balanceETH} balanceUSD={balanceUSD} />
 
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          {todos.map((t) => (
-            <li
-              key={t._id}
-              style={{
-                padding: '0.6rem 0',
-                borderBottom: '1px solid #eee',
-                display: 'flex',
-                justifyContent: 'space-between'
-              }}>
-              <span>{t.text}</span>
-              <button onClick={() => removeTodo(t._id)}>Delete</button>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
+      <Styled.Delimiter />
+
+      {address ? (
+        <SendTransactionForm
+          senderAddress={address}
+          onTxSuccess={async () => {
+            await updateBalance(address);
+          }}
+        />
+      ) : (
+        <div>Please connect your crypto-wallet to send transactions</div>
+      )}
+
+      <TransactionsList />
+    </Styled.RootContainer>
   );
 }
