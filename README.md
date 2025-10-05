@@ -1,6 +1,7 @@
 # React-TypeScript-Web3-Pet-App
 
 This project is a **React application** built with **Vite**, **TypeScript**, **styled-components** and **Web3**. 
+
 It also uses **ESLint** and **Prettier** configurations defined at the project root for consistent code quality and formatting.
 
 ---
@@ -17,7 +18,9 @@ URL for installation Metamask plugin in Google Chrome: https://chromewebstore.go
 
 You can check how to select test networks in **Metamask** here: https://support.metamask.io/configure/networks/how-to-view-testnets-in-metamask/
 
-- Also, it is needed to have some **free Sepolia ETH** on your account to make application work. You can get it from here: https://cloud.google.com/application/web3/faucet/ethereum/sepolia
+- Also, it is needed to have some **free Sepolia ETH** on your account to make application work. 
+
+You can get it from here: https://cloud.google.com/application/web3/faucet/ethereum/sepolia
 
 - Recommended editor: **VSCode / WebStorm** with **ESLint** and **Prettier** extensions
 
