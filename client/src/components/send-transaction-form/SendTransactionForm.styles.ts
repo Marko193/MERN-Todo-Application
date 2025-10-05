@@ -65,3 +65,7 @@ export const FormSection = styled.div`
 `;
 
 export const StatusSection = styled.div``;
+
+export const SendTransactionButton = styled.button`
+  border: 1px solid gray;
+`;

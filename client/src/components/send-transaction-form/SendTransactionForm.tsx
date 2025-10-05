@@ -65,7 +65,7 @@ const SendTransactionForm = ({ senderAddress, onTxSuccess }: SendTransactionForm
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
         />
-        <button onClick={handleSend}>Send</button>
+        <Styled.SendTransactionButton onClick={handleSend}>Send</Styled.SendTransactionButton>
       </Styled.FormSection>
       <Styled.StatusSection>
         {txStatus !== 'idle' && (
