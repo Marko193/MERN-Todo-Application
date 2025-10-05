@@ -57,7 +57,9 @@ export default function App() {
 
   return (
     <Styled.RootContainer>
-      <h1>Web3 DApp</h1>
+      <Styled.RootContainerTitle>Web3 DApp</Styled.RootContainerTitle>
+
+      <Styled.Delimiter />
 
       <CheckWalletConnection address={address} balanceETH={balanceETH} balanceUSD={balanceUSD} />
 
@@ -73,6 +75,8 @@ export default function App() {
       ) : (
         <div>Please connect your crypto-wallet to send transactions</div>
       )}
+
+      <Styled.Delimiter />
 
       <TransactionsList />
     </Styled.RootContainer>

@@ -50,32 +50,42 @@ const SendTransactionForm = ({ senderAddress, onTxSuccess }: SendTransactionForm
   };
 
   return (
-    <div>
+    <Styled.SendTransactionsContainer>
       <h3>Send ETH</h3>
-      <Styled.AddressInput
-        type="text"
-        placeholder="Recipient address"
-        value={recipient}
-        onChange={(e) => setRecipient(e.target.value)}
-      />
-      <Styled.AmountInput
-        type="number"
-        placeholder="Amount ETH"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-      />
-      <button onClick={handleSend}>Send</button>
+      <Styled.FormSection>
+        <Styled.AddressInput
+          type="text"
+          placeholder="Recipient address"
+          value={recipient}
+          onChange={(e) => setRecipient(e.target.value)}
+        />
+        <Styled.AmountInput
+          type="number"
+          placeholder="Amount ETH"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+        />
+        <button onClick={handleSend}>Send</button>
+      </Styled.FormSection>
+      <Styled.StatusSection>
+        {txStatus !== 'idle' && (
+          <Styled.StatusBlock>
+            <div>
+              <b>Status:</b> <span>{txStatus}</span>
+            </div>
+            {txHash && (
+              <div>
+                <b>Tx Hash:</b> <Styled.TxHash>{txHash}</Styled.TxHash>
+              </div>
+            )}
+          </Styled.StatusBlock>
+        )}
 
-      {txStatus !== 'idle' && (
-        <Styled.StatusBlock>
-          Status: {txStatus} {txHash && <span> | Tx Hash: {txHash}</span>}
-        </Styled.StatusBlock>
-      )}
-
-      {txStatus === 'error' && errorMessage && (
-        <Styled.ErrorBlock>Error: {errorMessage}</Styled.ErrorBlock>
-      )}
-    </div>
+        {txStatus === 'error' && errorMessage && (
+          <Styled.ErrorBlock>Error: {errorMessage}</Styled.ErrorBlock>
+        )}
+      </Styled.StatusSection>
+    </Styled.SendTransactionsContainer>
   );
 };
 

@@ -14,15 +14,29 @@ const Input = styled.input`
   }
 `;
 
+export const SendTransactionsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 10px;
+
+  @media (max-width: 720px) {
+    align-items: start;
+    flex-direction: column;
+  }
+`;
+
 export const AddressInput = styled(Input)`
-  width: 300px;
+  width: 400px;
 `;
 
 export const AmountInput = styled(Input)`
-  width: 100px;
+  width: 150px;
 `;
 
 export const StatusBlock = styled.div`
+  display: flex;
+  flex-direction: column;
   margin-top: 10px;
 `;
 
@@ -30,3 +44,24 @@ export const ErrorBlock = styled.div`
   color: red;
   margin-top: 5px;
 `;
+
+export const TxHash = styled.span`
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+`;
+
+export const FormSection = styled.div`
+  display: flex;
+
+  @media (max-width: 720px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+`;
+
+export const StatusSection = styled.div``;

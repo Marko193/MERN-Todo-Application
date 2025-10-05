@@ -33,7 +33,8 @@ const TransactionsList = () => {
         {txs.map((t) => (
           <Styled.TransactionListItem key={t.hash || `${t.to}-${t.amount}-${t.timestamp}`}>
             <div>
-              <strong>To:</strong> {t.to}
+              <strong>To: </strong>
+              <Styled.SendAddress>{t.to}</Styled.SendAddress>
             </div>
             <div>
               <strong>Amount:</strong> {t.amount} ETH
@@ -41,12 +42,12 @@ const TransactionsList = () => {
             <div>
               <strong>Hash:</strong>{' '}
               {t.hash ? (
-                <a
+                <Styled.HashLink
                   href={`https://sepolia.etherscan.io/tx/${t.hash}`}
                   target="_blank"
                   rel="noreferrer">
                   {t.hash}
-                </a>
+                </Styled.HashLink>
               ) : (
                 '—'
               )}
