@@ -10,17 +10,17 @@ It also uses **ESLint** and **Prettier** configurations defined at the project r
 
 - **Node.js v18+**
 
-- In your browser is needed to be installed and connected any **Ethereum wallet, like Metamask** or others.
+- Any modern browser with an Ethereum wallet installed (e.g., **MetaMask**)
 
-URL for installation Metamask plugin in Google Chrome: https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn
+Install MetaMask for Chrome: https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn
 
-- For testing application functionality, it is needed to choose any testnet in your Ethereum wallet, like **Sepolia Testnet**. 
+- For testing, choose a testnet in your Ethereum wallet, like **Sepolia Testnet**. 
 
-You can check how to select test networks in **Metamask** here: https://support.metamask.io/configure/networks/how-to-view-testnets-in-metamask/
+How to enable test networks in MetaMask: https://support.metamask.io/configure/networks/how-to-view-testnets-in-metamask
 
-- Also, it is needed to have some **free Sepolia ETH** on your account to make application work. 
+- You will need some **free Sepolia ETH** to interact with the app 
 
-You can get it from here: https://cloud.google.com/application/web3/faucet/ethereum/sepolia
+Example faucet: https://cloud.google.com/application/web3/faucet/ethereum/sepolia
 
 - Recommended editor: **VSCode / WebStorm** with **ESLint** and **Prettier** extensions
 
